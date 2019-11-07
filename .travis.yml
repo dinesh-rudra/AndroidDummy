@@ -1,5 +1,5 @@
 language: android
-sudo: required # For faster internet speeds and more memory
+sudo: false # For faster internet speeds and more memory
 jdk: oraclejdk8
 android:
   components:
@@ -16,6 +16,7 @@ android:
 
 before_install:
   - yes | sdkmanager "platforms;android-28"
+  - yes | sdkmanager --licenses && sdkmanager --update
   - chmod +x gradlew
 
 before_cache:
