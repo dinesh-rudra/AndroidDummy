@@ -16,7 +16,7 @@ android:
 
 before_install:
   - yes | sdkmanager "platforms;android-28"
-  - yes | sdkmanager --licenses && sdkmanager --update
+  - yes | sdkmanager --update
   - chmod +x gradlew
 
 before_cache:
