@@ -29,6 +29,6 @@ cache:
 
 
 script:
-   - "./gradlew build connectedCheck PdisablePreDex --stacktrace"
+   - "./gradlew build connectedCheck --stacktrace"
 
 after_failure: "cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml"
