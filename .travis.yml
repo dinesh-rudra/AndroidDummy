@@ -9,10 +9,15 @@ android:
     - build-tools-28.0.0
     - android-28
     - extra-android-m2repository # for design library
+    - sys-img-x86-android-29
   licenses:
     - android-sdk-preview-license-.+
     - android-sdk-license-.+
     - google-gdk-license-.+
+env:
+  global:
+   # install timeout in minutes (2 minutes by default)
+    - ADB_INSTALL_TIMEOUT=8
 
 before_install:
   - yes | sdkmanager "platforms;android-28"
@@ -27,8 +32,15 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-
+# Emulator Management: Create, Start and Wait
+before_script:
+  - echo no | android create avd --force -n test -t android-29 --abi x86
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
 script:
-   - "./gradlew build connectedCheck --stacktrace"
+  # - "./gradlew build connectedCheck --stacktrace"
+   - android list target
+   - ./gradlew connectedAndroidTest
 
 after_failure: "cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml"
